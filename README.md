@@ -1,132 +1,139 @@
-# DSP OCR Improvement Algorithm reviewed
-OCR Dutch Books Roel Smeets
+# Improved Version with Academic Tone and Spelling Check
 
-Evaluation of the OCR refinement for Dutch books created by Radboud University studies. (https://github.com/FlorisCos/DSP_OCR_improvement_algorithm/tree/main)
+## Enhancing the OCR Refinement Algorithm for Dutch Books: A Critical Examination
+### Roel Smeets, Radboud University
+### By Celis Tittse (2023)
 
-## **Abstract** 
-The OCR improvement algorithm post-OCR corrector improves Dutch literature books but runs very slowly. It utilises the Levenshtein distance and language AI model. Unexpectedly, removing both models yield the same results and speeds up the process drasticly. In addition, optimising the program by removing unnecessary O/I files, global variables, the addition of compounds, and regex shows a significant decrease in execution time (an increase of c. 1068% to 5543%). The reduced program still improves OCRs yielding more significant corrections for older (beginning of the 20th-century books) than  younger books. 
+## Abstract
+This paper scrutinizes the efficacy of the OCR refinement algorithm designed for enhancing Dutch literary texts, as developed by Radboud University scholars. The algorithm is implemented for the post-OCR correction of Dutch literature books, albeit with a notable drawback of sluggish processing speed. The algorithm leverages the Levenshtein distance and a language-based AI model. Surprisingly, the removal of both models yields comparable outcomes while significantly expediting the execution process. Moreover, program optimization measures, including the elimination of redundant input/output (I/O) files, global variables, the incorporation of compounds, and the utilization of regular expressions (regex), contribute to a substantial reduction in execution time (with a performance enhancement of approximately 1068% to 5543%). The streamlined version of the program still demonstrates its efficacy in rectifying OCR errors, particularly for earlier 20th-century literary works compared to more contemporary texts.
 
-## **The structure of the program**
+## Program and issue
+### Program Structure
 0.
-- Add names and numbers to the lexicon.
-- Open txt book files
+- Addition of terms and numerals to the lexicon.
+- Opening of text book files.
 
-0.1 Find and remove page numbers
+0.1 Identification and removal of page numbers.
 
-1. Fix words consisting of loose letters ('c h i l d' becomes'child').
+1. Rectification of words composed of separate letters (e.g., 'c h i l d' becomes 'child').
 
-2.0 Repair words that have been split in twain by end of line hyphenation. ('sep-\narate' becomes '\nseparate').
+2.0 Restoration of words split by hyphenation at the end of lines (e.g., 'sep-\narate' becomes '\nseparate').
 
-2.1 Repair words that have been split in twain by a page number at the end of a line. ('sep44\narate' becomes '\nseparate').
+2.1 Rectification of words divided by a page number at the line's conclusion (e.g., 'sep44\narate' becomes '\nseparate').
 
-3. Put spaces between words and punctuation marks, so that every word can be found in the lexicon ('dog.' becomes 'dog . ').
+3. Insertion of spaces between words and punctuation marks, ensuring each word is present in the lexicon (e.g., 'dog.' becomes 'dog . ').
 
-3.1 Repairs frequently misread quotation marks. ('Hallo?/ becomes 'Hallo?').
+3.1 Correction of frequently misread quotation marks (e.g., 'Hallo?/' becomes 'Hallo?').
 
-3.2 Fix loose first letters, like in 'l etter'.
+3.2 Rectification of detached initial letters, as seen in 'l etter'.
 
-3.3 Do some hardcoding on frequent mistakes.
+3.3 Implementation of targeted adjustments for frequently encountered errors.
 
-4. Turn the string with the line into a list with on every position a word. Store the position of the spaces in 'spatiepos'.
+4. Conversion of the line's string into a list of words, while retaining space positions in 'spatiepos'.
 
-5. Check if a word that's not in the lexicon is actually a compound. If so, add it to the lexicon.
+5. Identification of non-lexicon words that are compounds and their subsequent addition to the lexicon.
 
-6. Run words that are not in the lexicon through the the language models.
+6. Submission of non-lexicon words to language models for correction.
 
-7. Turn the list into a string and restore spacing.
+7. Reconversion of the list to a string format while preserving spacing.
 
-8. Remove excessive spacing around punctuation marks.
+8. Elimination of excessive spacing around punctuation marks.
 
-## **Problem**
-The program is running very slowly. 
+### Issue
+The primary issue pertains to the program's sluggish performance.
 
-## **Potential causes**
-1. Heavy use of global variables.
-2. Extensive use of O/I files.
-3. Unnecessary use of regex.
-4. Use of Bert.
-5. Use manual Levenshtein distance calculations comparing every word with an extensive dictionary.
-6. The creation and addition of double words 
+### Potential Factors
+1. Overreliance on global variables.
+2. Extensive utilization of I/O files.
+3. Redundant utilization of regex.
+4. Incorporation of Bert.
+5. Manual computation of Levenshtein distance, entailing comparisons of every word against an expansive dictionary.
+6. Generation and inclusion of duplicated words.
 
-##  **Test corpora** 
-1. Fragment from De Ontdekking van de Hemel (Harry Mulisch, 1992) (2057 words)
-2. Fragment from De Oogst (Stijn Streuvels, 1901) (2097 words)
-3. A small fragment from De Oogst (316 words)
-4. The Dutch Dictionary from OpenTaal is used (https://github.com/OpenTaal/opentaal-wordlist)
-5. Combined with the Family-names-in-the-Netherlands (https://github.com/digitalheir/family-names-in-the-netherlands) and first names in Dutch (https://github.com/hgrif/dutch-names/blame/master/app/static/names.json)
-   
-## **Testing Methods**
-Calculating the differences between tests based on Word (WER) and character (CER) error, the ocrevalUAtion is used. (https://github.com/impactcentre/ocrevalUAtion/releases)
+## Data
+### Testing Corpus
+1. Extract from "De Ontdekking van de Hemel" by Harry Mulisch, 1992 (2057 words).
+2. Extract from "De Oogst" by Stijn Streuvels, 1901 (2097 words).
+3. Small fragment from "De Oogst" (316 words).
+4. Utilization of Dutch Dictionary from OpenTaal (https://github.com/OpenTaal/opentaal-wordlist).
+5. Combination with "Family-names-in-the-Netherlands" (https://github.com/digitalheir/family-names-in-the-netherlands) and Dutch first names (https://github.com/hgrif/dutch-names/blame/master/app/static/names.json).
 
-## **Experiment 1: Optimizing code**
-Rewrite code to minimize the use of regex, O/I files and global variables. Measure the difference in running time and accuracy in CER and WER on both Mulisch and Streuvels. These results are compared with the epub as ground truth. 
+## Method and results
+### Testing Methodology
+The evaluation encompasses the calculation of Word Error Rate (WER) and Character Error Rate (CER) using the ocrevalUAtion tool (https://github.com/impactcentre/ocrevalUAtion/releases).
 
-## **Results 1**
-| Mulisch  | CER | WER  | Execution time | 
-| ------------- | ------------- | ------------- | ------------- |
-| Raw OCR  | 1,57 | 1,60 | 0 sec |
-| Original code | 1,35 | 1,16 | 2200 sec |
-| Rewritten code | 1,33 | 1,07 | 416 sec |
+### Experiment 1: Code Optimization
+The code is refactored to minimize the reliance on regex, I/O files, and global variables. Subsequent evaluation entails the comparison of execution times and accuracy in CER and WER for both Mulisch and Streuvels extracts against the ground truth ePub.
 
-| Streuvels  | CER | WER  | Execution time | 
-| ------------- | ------------- | ------------- | ------------- |
-| Raw OCR  | 4,07 | 7,44 | 0 sec |
-| Original code | 3,65 | 7,40 | 10920 sec |
-| Rewritten code | 3,54 | 6,77 | 203 sec |
+### Results 1
+Results for Mulisch:
+| Condition  | CER | WER  | Execution Time | 
+| :------------- | :-------------: | :-------------: | :-------------: |
+| Raw OCR  | 1.57 | 1.60 | 0 sec |
+| Original Code | 1.35 | 1.16 | 2200 sec |
+| Rewritten Code | 1.33 | 1.07 | 416 sec |
 
-Both scripts are increased in speed and unexpectedly increased in accuracy. This might be caused by adding Dutch surnames and given names to the lexicon and the adjustment of a few typos in the code. 
+Results for Streuvels:
+| Condition  | CER | WER  | Execution Time | 
+| :------------- | :-------------: | :-------------: | :-------------: |
+| Raw OCR  | 4.07 | 7.44 | 0 sec |
+| Original Code | 3.65 | 7.40 | 10920 sec |
+| Rewritten Code | 3.54 | 6.77 | 203 sec |
 
-## **Experiment 2: Bert and Levenshtein models**
-The original code uses Levenshtein distance and pre-trained AI model Bert to correct words which are not recognised as Dutch words or names. Both models propose a word which is respectively a word closest to the unrecognised word and a word that is plausible in the context. If both words are the same, it is changed in the text. 
-The Levenshtein distance is calculated within the code, which increases the running speed. Replacing it with an optimized Python module difflib. The inbuild function get_close_matches gives the same results but faster (https://docs.python.org/3/library/difflib.html). 
-This experiment entails the comparison of CER, WER and execution time with Bert and difflib, with difflib, with Bert and without both of them. 
+Both scripts display improved speed and unexpectedly enhanced accuracy, potentially attributed to the incorporation of Dutch surnames and given names into the lexicon, alongside minor typographical code adjustments.
 
-## **Results 2**
-| Mulisch  | CER | WER  | Execution time | 
-| ------------- | ------------- | ------------- | ------------- |
-| Raw OCR  | 1,57 | 1,60 | 0 sec |
-| Bert and Diff | 1,33 | 1,07 | 658 sec |
-| Bert | 1,38 | 1,18 | 416 sec |
-| Diff | 1,49 | 1,41 | 347 sec |
-| Neither | 1,33 | 1,07 | 206 sec |
+### Experiment 2: Bert and Levenshtein Models
+The original code employs both Levenshtein distance and pre-trained AI model Bert for correcting unrecognized Dutch words. The experiment replaces the Levenshtein calculation with the optimized Python module difflib. Comparison includes CER, WER, and execution times with Bert, difflib, both, and neither.
 
-| Streuvels  | CER | WER  | Execution time | 
-| ------------- | ------------- | ------------- | ------------- |
-| Raw OCR  | 4,07 | 7,44 | 0 sec |
-| Bert and Diff | 3,53 | 6,72 | 507 sec |
-| Bert | 3,54 | 6,77 | 203 sec |
-| Diff | 3,53 | 6,72 | 486 sec |
-| Neither | 3,53 | 6,72 | 197 sec |
+### Results 2
+Results for Mulisch:
+| Condition  | CER | WER  | Execution Time | 
+| :------------- | :-------------: | :-------------: | :-------------: |
+| Raw OCR  | 1.57 | 1.60 | 0 sec |
+| Bert and Diff | 1.33 | 1.07 | 658 sec |
+| Bert | 1.38 | 1.18 | 416 sec |
+| Diff | 1.49 | 1.41 | 347 sec |
+| Neither | 1.33 | 1.07 | 206 sec |
 
-In conclusion, it shows that combining Bert and Levenshtein seems like a good and reasonable idea. But the results stay the same. In the initial report from the research group the combination of the two yields the best results in comparison with applying one of the two methods. Looking at the words both methods return in the text manually, the proposed words make no sense in either the context of the sentence. In lists of ten proposed words, Bert and diff almost never return the same suggestions and no correction is processed. Resulting in the same error rate for applying the algorithms and leaving them out. It only slows down the program. 
+Results for Streuvels:
+| Condition  | CER | WER  | Execution Time | 
+| :------------- | :-------------: | :-------------: | :-------------: |
+| Raw OCR  | 4.07 | 7.44 | 0 sec |
+| Bert and Diff | 3.53 | 6.72 | 507 sec |
+| Bert | 3.54 | 6.77 | 203 sec |
+| Diff | 3.53 | 6.72 | 486 sec |
+| Neither | 3.53 | 6.72 | 197 sec |
 
-## **Experiment 3: AI models**
-AI language model Bert has not abduced desirable results. Therefore, an alternative AI language model for Dutch sentences Byt5 (https://huggingface.co/ml6team/byt5-base-dutch-ocr-correction) was tested against Bert. This was conducted on a short sample of De Oogst (316 words). In comparison, Bert, diff and Byt5 will be tested separately. 
+Despite an initial promise, combining Bert and Levenshtein distance appears not to enhance outcomes. Manual assessment of the proposed words from both methods indicates nonsensical suggestions in the text's context, resulting in comparable error rates with or without the algorithms, and subsequently slowing the program.
 
-## **Results 3**
-| Short Streuvels  | CER | WER  | Execution time | 
-| ------: | :-----: | :---: | :--------- |
-| Raw OCR  | 2,72 | 5,33 | 0 sec |
-| Byt5 | 4,05 | 8,98 | 201 sec |
-| Bert | 2,10 | 4,44 | 66,7 sec |
-| Diff | 3,03 | 7,56 | 61,8 sec |
-| Neither | 2,02 | 4,00 | 35,3 sec |
+### Experiment 3: AI Models
+Given Bert's suboptimal results, an alternative Dutch sentence AI language model, Byt5, was evaluated against Bert. This experiment was conducted on a small sample from "De Oogst" (
 
-Byt5 takes the longest and results in the worst results. Therefore, it is not useful to utilise this model instead of Bert. The best results are found when using the models at all. 
+316 words). The assessment includes Bert, difflib, and Byt5 individually.
 
-## **Experiment 4: Compounds dictionary**
-The program iterates over all letter of a word and if one side of the chosen letter is a word in the lexicon, as well as the other side, it adds the whole word to the lexicon as compound word. By doing this the lexicon expands sevenfold and potentially slows down the program. By removing this function, the program might be faster but also be less accurate. 
+### Results 3
+Results for "De Oogst" Sample:
+| Model  | CER | WER  | Execution Time | 
+| :------------- | :-------------: | :-------------: | :-------------: |
+| Raw OCR  | 2.72 | 5.33 | 0 sec |
+| Byt5 | 4.05 | 8.98 | 201 sec |
+| Bert | 2.10 | 4.44 | 66.7 sec |
+| Diff | 3.03 | 7.56 | 61.8 sec |
+| Neither | 2.02 | 4.00 | 35.3 sec |
 
-## **Results 4** 
-| Books  | Compound lexicon | Basic lexicon  | Execution time difference| 
-| ------: | :-----: | :---: | :--------- |
-| Streuvels (CER; WER) | (3,54 ; 6,77) | (3,54 ; 6,77) | -270 sec (411% faster) |
-| Mulisch (CER; WER) | (1,33 ; 1,07) | (1,33 ; 1,07) | -277 sec (430% faster)|
+Byt5 showcases inferior results along with lengthier execution times. The superior performance is evident when both models are employed.
 
-The error rate stays the same but the program runs four times faster. 
+### Experiment 4: Compound Dictionary
+The program iterates through words, identifying compounds based on the presence of neighboring lexicon words, potentially slowing the program due to the expanded lexicon. The removal of this feature is explored, and its effect on speed and accuracy is examined.
 
-## **Conclusion**
-Removing the Bert models and levenhstein distance yields the same results and speeds up the process. In addition, optimising the program by removing unnecessary O/I files, global variables, the addition of compounds, and regex shows a significant decrease in execution time (an increase of c. 1068% to 5543%). The reduced program still improves OCRs yielding more significant corrections for older (beginning of the 20th-century books) than  younger books. This program is still helpful for correcting Dutch OCRs and esspecially when the spacing or seperation of words is not correct. 
+### Results 4
+Results for Books:
+| Books  | Compound Lexicon | Basic Lexicon  | Execution Time Difference| 
+| :------ | :-----: | :---: | :--------- |
+| Streuvels (CER; WER) | (3.54 ; 6.77) | (3.54 ; 6.77) | -270 sec (411% faster) |
+| Mulisch (CER; WER) | (1.33 ; 1.07) | (1.33 ; 1.07) | -277 sec (430% faster)|
 
+While the error rate remains consistent, the program's speed improves significantly, running four times faster.
 
-
+## Conclusion
+The exclusion of Bert models and Levenshtein distance exhibits parallel results while expediting the process. Furthermore, program optimization through the elimination of unnecessary I/O files, global variables, compound additions, and regex contributes to a noteworthy reduction in execution time (a performance boost of approximately 1068% to 5543%). Despite the streamlined version, the program maintains its capacity to rectify OCR errors, particularly for early 20th-century texts, and serves as a valuable tool for rectifying Dutch OCRs, particularly in instances of spacing or word separation inaccuracies.
