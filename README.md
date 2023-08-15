@@ -1,6 +1,7 @@
 # Improved Version with Academic Tone and Spelling Check
 
 ## Enhancing the OCR Refinement Algorithm for Dutch Books: A Critical Examination
+### Originally written by Floris Cos, Tamara Mauro, Boudewijn Schiermeier, and Annemijn van Klink
 ### Roel Smeets, Radboud University
 ### By Celis Tittse (2023)
 
@@ -8,7 +9,10 @@
 This paper scrutinizes the efficiency of the OCR refinement algorithm designed for enhancing Dutch literary texts, as developed by Radboud University scholars. The algorithm is implemented for the post-OCR correction of Dutch literature books. A notable drawback is its sluggish processing speed. The algorithm leverages the Levenshtein distance and a language-based AI model. Surprisingly, the removal of both models yields comparable outcomes while significantly expediting the execution process. Moreover, program optimization measures, including the elimination of redundant input/output (I/O) files, global variables, the incorporation of compounds, and the utilization of regular expressions (regex), contribute to a substantial reduction in execution time (with a performance enhancement of approximately 1068% to 5543%). The streamlined version of the program still demonstrates its efficiency in rectifying OCR errors, particularly for earlier 20th-century literary works when compared to more contemporary texts.
 
 ## Program and issue
-### Program Structure
+### Program purpose
+This program was written as part of a Data Science project at Radboud University under the supervision of Roel Smeets to enhance poor-quality OCRs of Dutch literary works. "THe algorithm contains functions that find and repair common character-based mistakes; it uses the context-based language model roBERTa (Bert in this readme), as well as the word-similarity-based Levenshtein Distance measure in order the correct wrongly recognized words, based on a Dutch lexicon." (OCR post-processing for Dutch Literature, Cos et.al., 1)
+
+### Program structure
 0.
 - Addition of names and numerals to the lexicon.
 - Opening of text book files.
