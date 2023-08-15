@@ -107,9 +107,7 @@ Results for Streuvels:
 Despite being initially promising, combining Bert and Levenshtein distance appeared not to enhance outcomes. Manual assessment of the proposed words from both methods indicates nonsensical suggestions in the text's context, resulting in comparable error rates with or without the algorithms, and therefore slowing the program.
 
 ### Experiment 3: AI Models
-Given Bert's suboptimal results, an alternative Dutch sentence AI language model, Byt5, was evaluated against Bert. This experiment was conducted on a small sample from "De Oogst" (
-
-316 words). The assessment includes Bert, difflib, and Byt5 individually.
+Given Bert's suboptimal results, an alternative Dutch sentence AI language model, Byt5, was evaluated against Bert. This experiment was conducted on a small sample from "De Oogst" (316 words). The assessment includes Bert, difflib, and Byt5 individually.
 
 ### Results 3
 Results for "De Oogst" Sample:
