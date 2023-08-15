@@ -5,7 +5,7 @@
 ### By Celis Tittse (2023)
 
 ## Abstract
-This paper scrutinizes the efficacy of the OCR refinement algorithm designed for enhancing Dutch literary texts, as developed by Radboud University scholars. The algorithm is implemented for the post-OCR correction of Dutch literature books, albeit with a notable drawback of sluggish processing speed. The algorithm leverages the Levenshtein distance and a language-based AI model. Surprisingly, the removal of both models yields comparable outcomes while significantly expediting the execution process. Moreover, program optimization measures, including the elimination of redundant input/output (I/O) files, global variables, the incorporation of compounds, and the utilization of regular expressions (regex), contribute to a substantial reduction in execution time (with a performance enhancement of approximately 1068% to 5543%). The streamlined version of the program still demonstrates its efficacy in rectifying OCR errors, particularly for earlier 20th-century literary works compared to more contemporary texts.
+This paper scrutinizes the efficiency of the OCR refinement algorithm designed for enhancing Dutch literary texts, as developed by Radboud University scholars. The algorithm is implemented for the post-OCR correction of Dutch literature books. A notable drawback is its sluggish processing speed. The algorithm leverages the Levenshtein distance and a language-based AI model. Surprisingly, the removal of both models yields comparable outcomes while significantly expediting the execution process. Moreover, program optimization measures, including the elimination of redundant input/output (I/O) files, global variables, the incorporation of compounds, and the utilization of regular expressions (regex), contribute to a substantial reduction in execution time (with a performance enhancement of approximately 1068% to 5543%). The streamlined version of the program still demonstrates its efficiency in rectifying OCR errors, particularly for earlier 20th-century literary works when compared to more contemporary texts.
 
 ## Program and issue
 ### Program Structure
@@ -25,7 +25,7 @@ This paper scrutinizes the efficacy of the OCR refinement algorithm designed for
 
 3.1 Correction of frequently misread quotation marks (e.g., 'Hallo?/' becomes 'Hallo?').
 
-3.2 Rectification of detached initial letters, as seen in 'l etter'.
+3.2 Rectification of detached first letters, as seen in 'l etter'.
 
 3.3 Implementation of targeted adjustments for frequently encountered errors.
 
@@ -45,8 +45,8 @@ The primary issue pertains to the program's sluggish performance.
 ### Potential Factors
 1. Overreliance on global variables.
 2. Extensive utilization of I/O files.
-3. Redundant utilization of regex.
-4. Incorporation of Bert.
+3. Redundant use of regex.
+4. Incorporation of Bert (an AI Sentence Context Language Model).
 5. Manual computation of Levenshtein distance, entailing comparisons of every word against an expansive dictionary.
 6. Generation and inclusion of duplicated words.
 
@@ -83,7 +83,7 @@ Results for Streuvels:
 Both scripts display improved speed and unexpectedly enhanced accuracy, potentially attributed to the incorporation of Dutch surnames and given names into the lexicon, alongside minor typographical code adjustments.
 
 ### Experiment 2: Bert and Levenshtein Models
-The original code employs both Levenshtein distance and pre-trained AI model Bert for correcting unrecognized Dutch words. The experiment replaces the Levenshtein calculation with the optimized Python module difflib. Comparison includes CER, WER, and execution times with Bert, difflib, both, and neither.
+The original code employs both Levenshtein distance and pre-trained AI model Bert for correcting unrecognized Dutch words. The experiment replaces the Levenshtein calculation with the optimized Python module difflib. The comparison includes CER, WER, and execution times with Bert, difflib, both, and neither.
 
 ### Results 2
 Results for Mulisch:
@@ -104,7 +104,7 @@ Results for Streuvels:
 | Diff | 3.53 | 6.72 | 486 sec |
 | Neither | 3.53 | 6.72 | 197 sec |
 
-Despite an initial promise, combining Bert and Levenshtein distance appears not to enhance outcomes. Manual assessment of the proposed words from both methods indicates nonsensical suggestions in the text's context, resulting in comparable error rates with or without the algorithms, and subsequently slowing the program.
+Despite being initially promising, combining Bert and Levenshtein distance appeared not to enhance outcomes. Manual assessment of the proposed words from both methods indicates nonsensical suggestions in the text's context, resulting in comparable error rates with or without the algorithms, and therefore slowing the program.
 
 ### Experiment 3: AI Models
 Given Bert's suboptimal results, an alternative Dutch sentence AI language model, Byt5, was evaluated against Bert. This experiment was conducted on a small sample from "De Oogst" (
@@ -121,10 +121,10 @@ Results for "De Oogst" Sample:
 | Diff | 3.03 | 7.56 | 61.8 sec |
 | Neither | 2.02 | 4.00 | 35.3 sec |
 
-Byt5 showcases inferior results along with lengthier execution times. The superior performance is evident when both models are employed.
+Byt5 showcases inferior results along with lengthier execution times. The algorithm performs better when neither model is employed.
 
 ### Experiment 4: Compound Dictionary
-The program iterates through words, identifying compounds based on the presence of neighboring lexicon words, potentially slowing the program due to the expanded lexicon. The removal of this feature is explored, and its effect on speed and accuracy is examined.
+The program iterates through words, identifying compounds based on the presence of neighbouring lexicon words, potentially slowing the program due to the expanded lexicon. The removal of this feature is explored, and its effect on speed and accuracy is examined.
 
 ### Results 4
 Results for Books:
