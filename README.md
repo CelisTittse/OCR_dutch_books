@@ -10,7 +10,7 @@ This paper scrutinizes the efficacy of the OCR refinement algorithm designed for
 ## Program and issue
 ### Program Structure
 0.
-- Addition of terms and numerals to the lexicon.
+- Addition of names and numerals to the lexicon.
 - Opening of text book files.
 
 0.1 Identification and removal of page numbers.
