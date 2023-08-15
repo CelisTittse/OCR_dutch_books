@@ -3,13 +3,13 @@ OCR Dutch Books Roel Smeets
 
 Evaluation of the OCR refinement for Dutch books created by Radboud University studies. (https://github.com/FlorisCos/DSP_OCR_improvement_algorithm/tree/main)
 
-**Abstract** 
+## **Abstract** 
 The OCR improvement algorithm post-OCR corrector improves Dutch literature books but runs very slowly. It utilises the Levenshtein distance and language AI model. Unexpectedly, removing both models yield the same results and slows down the process. In addition, optimising the program by removing unnecessary O/I files, global variables, the addition of compounds, and regex shows a significant decrease in execution time (an increase of c. 1068% to 5543%). The reduced program still improves OCRs yielding more significant corrections for older (beginning of the 20th-century books) than  younger books. 
 
-**Problem:**
+## **Problem**
 The program is running very slowly. 
 
-**Potential causes:**
+## **Potential causes**
 1. Heavy use of global variables.
 2. Extensive use of O/I files.
 3. Unnecessary use of regex.
@@ -17,20 +17,20 @@ The program is running very slowly.
 5. Use manual Levenshtein distance calculations comparing every word with an extensive dictionary.
 6. The creation and addition of double words 
 
-**Test corpora:**
+##  **Test corpora** 
 1. Fragment from De Ontdekking van de Hemel (Harry Mulisch, 1992) (2057 words)
 2. Fragment from De Oogst (Stijn Streuvels, 1901) (2097 words)
 3. A small fragment from De Oogst (316 words)
 4. The Dutch Dictionary from OpenTaal is used (https://github.com/OpenTaal/opentaal-wordlist)
 5. Combined with the Family-names-in-the-Netherlands (https://github.com/digitalheir/family-names-in-the-netherlands) and first names in Dutch (https://github.com/hgrif/dutch-names/blame/master/app/static/names.json)
    
-**Testing Methods**
+## **Testing Methods**
 Calculating the differences between tests based on Word (WER) and character (CER) error, the ocrevalUAtion is used. (https://github.com/impactcentre/ocrevalUAtion/releases)
 
-**Experiment 1:**
+## **Experiment 1**
 Rewrite code to minimize the use of regex, O/I files and global variables. Measure the difference in running time and accuracy in CER and WER on both Mulisch and Streuvels. These results are compared with the epub as ground truth. 
 
-**Results 1:**
+## **Results 1**
 | Mulisch  | CER | WER  | Execution time | 
 | ------------- | ------------- | ------------- | ------------- |
 | Raw OCR  | 1,57 | 1,60 | 0 sec |
@@ -45,11 +45,12 @@ Rewrite code to minimize the use of regex, O/I files and global variables. Measu
 
 Both scripts are increased in speed and unexpectedly increased in accuracy. This might be caused by adding Dutch surnames and given names to the lexicon and the adjustment of a few typos in the code. 
 
-**Experiment 2**
+## **Experiment 2**
 The original code uses Levenshtein distance and pre-trained AI model Bert to correct words which are not recognised as Dutch words or names. Both models propose a word which is respectively a word closest to the unrecognised word and a word that is plausible in the context. If both words are the same, it is changed in the text. 
 The Levenshtein distance is calculated within the code, which increases the running speed. Replacing it with an optimized Python module difflib. The inbuild function get_close_matches gives the same results but faster (https://docs.python.org/3/library/difflib.html). 
 This experiment entails the comparison of CER, WER and execution time with Bert and difflib, with difflib, with Bert and without both of them. 
 
+## **Results 2**
 | Mulisch  | CER | WER  | Execution time | 
 | ------------- | ------------- | ------------- | ------------- |
 | Raw OCR  | 1,57 | 1,60 | 0 sec |
@@ -67,3 +68,17 @@ This experiment entails the comparison of CER, WER and execution time with Bert 
 | Neither | 3,53 | 6,72 | 197 sec |
 
 In conclusion, it shows that combining Bert and Levenshtein seems like a good and reasonable idea. But the results stay the same. In the initial report from the research group the combination of the two yields the best results in comparison with applying one of the two methods. Looking at the words both methods return in the text manually, the proposed words make no sense in either the context of the sentence. In lists of ten proposed words, Bert and diff almost never return the same suggestions and no correction is processed. Resulting in the same error rate for applying the algorithms and leaving them out. It only slows down the program. 
+
+## **Experiment 3**
+AI language model Bert has not abduced desirable results. Therefore, an alternative AI language model for Dutch sentences Byt5 (https://huggingface.co/ml6team/byt5-base-dutch-ocr-correction) was tested against Bert. This was conducted on a short sample of De Oogst (316 words). In comparison, Bert, diff and Byt5 will be tested separately. 
+
+## **Results 3**
+| Short Streuvels  | CER | WER  | Execution time | 
+| ------: | :-----: | :---: | :--------- |
+| Raw OCR  | 2,72 | 5,33 | 0 sec |
+| Byt5 | 4,05 | 8,98 | 201 sec |
+| Bert | 2,10 | 4,44 | 66,7 sec |
+| Diff | 3,03 | 7,56 | 61,8 sec |
+| Neither | 2,02 | 4,00 | 35,3 sec |
+
+Byt5 takes the longest and results in the worst results. Therefore, it is not useful to utilise this model instead of Bert. The best results are found when 
